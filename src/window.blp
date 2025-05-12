@@ -1,0 +1,65 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $DocmorphWindow: Adw.ApplicationWindow {
+  title: _("DocMorph");
+  default-width: 400;
+  default-height: 600;
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      MenuButton button_menu {
+        icon-name: "open-menu-symbolic";
+        primary: true;
+      }
+    }
+
+    Adw.HeaderBar {}
+
+    Adw.Clamp {
+    margin-end: 10;
+    margin-start: 10;
+      Gtk.Box {
+        orientation: vertical;
+
+        Button FileChooserNative {
+          action-name: "win.open_file";
+          margin-top: 20;
+          label: _("Select file");
+        }
+
+        Gtk.ListBox {
+          margin-top: 20;
+          margin-bottom: 20;
+
+          styles [
+            "boxed-list-separate",
+          ]
+
+          Adw.ComboRow {
+            title: _("Select Type");
+
+            model: Gtk.StringList {
+              strings [
+                "PDF",
+                "DOCX",
+                "HTML",
+              ]
+            };
+          }
+
+          Gtk.Button {
+            styles [
+              "suggested-action",
+              "pill",
+            ]
+
+            label: _("Convert");
+          }
+        }
+      }
+
+    }
+  }
+}

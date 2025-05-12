@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=docmorph
+Exec=docmorph
+Icon=io.github.resorgatto.docmorph
+Terminal=false
+Type=Application
+Categories=Utility;
+Keywords=GTK;
+StartupNotify=true
+DBusActivatable=true

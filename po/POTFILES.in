@@ -1,0 +1,8 @@
+# List of source files containing translatable strings.
+# Please keep this file sorted alphabetically.
+data/io.github.resorgatto.docmorph.desktop.in
+data/io.github.resorgatto.docmorph.metainfo.xml.in
+data/io.github.resorgatto.docmorph.gschema.xml
+src/main.py
+src/window.py
+src/window.ui
