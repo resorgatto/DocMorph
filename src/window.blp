@@ -38,22 +38,31 @@ template $DocmorphWindow: Adw.ApplicationWindow {
           ]
 
           Adw.ComboRow {
+
             title: _("Select Type");
 
             model: Gtk.StringList {
+
+
               strings [
                 "PDF",
                 "DOCX",
                 "HTML",
+
               ]
             };
           }
 
           Gtk.Button {
+
+          action-name: "win.button_convert";
+
             styles [
               "suggested-action",
               "pill",
             ]
+
+
 
             label: _("Convert");
           }

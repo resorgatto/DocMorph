@@ -87,3 +87,14 @@ def main(version):
     app = DocmorphApplication()
     return app.run(sys.argv)
 
+
+    def select_button(self, action, _):
+        btn = Gtk.StringList
+        btn.connect('clicked', lambda x: win.close())
+        selected_format = "PDF"
+        if selected_format == "PDF":
+            print(f"Você selecionou {selected_format}")
+        elif selected_format == "DOCX":
+            print(f"Você selecionou {selected_format}")
+
+

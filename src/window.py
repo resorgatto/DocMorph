@@ -19,19 +19,23 @@
 
 from gi.repository import Adw
 from gi.repository import Gtk, Gio
-
+import subprocess
 
 @Gtk.Template(resource_path='/io/github/resorgatto/docmorph/window.ui')
 class DocmorphWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'DocmorphWindow'
 
     label = Gtk.Template.Child()
+    selected_item = ""
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         open_action = Gio.SimpleAction(name='open_file')
         open_action.connect('activate', self.open_file)
         self.add_action(open_action)
+        select_action = Gio.SimpleAction(name='button_convert')
+        select_action.connect('activate', self.button_convert)
+        self.add_action(select_action)
 
 
 
@@ -47,5 +51,14 @@ class DocmorphWindow(Adw.ApplicationWindow):
     def on_open_response(self, dialog, response):
         if response == Gtk.ResponseType.ACCEPT:
             self.open_file(dialog.get_file())
+            self.selected_file = dialog.get_file()
 
         self._native = None
+
+
+    def button_convert(self, action, _):
+        try:
+            subprocess.run(["pandoc", "-o", "documento.pdf", self.selected_file])
+            print("Conversão concluída com sucesso.")
+        except Exception as e:
+            print(f"Erro durante a conversão: {e}")

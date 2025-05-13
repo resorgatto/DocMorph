@@ -23,6 +23,47 @@
         "*.a"
     ],
     "modules" : [
+
+            {
+            "name": "pandoc",
+            "buildsystem": "simple",
+            "build-commands": [
+                "install -Dm755 bin/pandoc ${FLATPAK_DEST}/bin/pandoc"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "only-arches": [
+                        "x86_64"
+                    ],
+                    "url": "https://github.com/jgm/pandoc/releases/download/3.6.4/pandoc-3.6.4-linux-amd64.tar.gz",
+                    "sha256": "5def6e1ff535e397becce292ee97767a947306150b9fb1488003b67ac3417c5e",
+                    "x-checker-data": {
+                        "type": "json",
+                        "url": "https://api.github.com/repos/jgm/pandoc/releases/latest",
+                        "version-query": ".tag_name",
+                        "url-query": ".assets[] | select(.name==\"pandoc-\" + $version + \"-linux-amd64.tar.gz\") | .browser_download_url"
+                    }
+                },
+                {
+                    "type": "archive",
+                    "only-arches": [
+                        "aarch64"
+                    ],
+                    "url": "https://github.com/jgm/pandoc/releases/download/3.6.4/pandoc-3.6.4-linux-arm64.tar.gz",
+                    "sha256": "ad5cf63fe0420388d9ec513f02d03e061477b786d11a328164dce8ad7387b8bd",
+                    "x-checker-data": {
+                        "type": "json",
+                        "url": "https://api.github.com/repos/jgm/pandoc/releases/latest",
+                        "version-query": ".tag_name",
+                        "url-query": ".assets[] | select(.name==\"pandoc-\" + $version + \"-linux-arm64.tar.gz\") | .browser_download_url"
+                    }
+                }
+            ]
+        },
+
+
+
         {
             "name" : "docmorph",
             "builddir" : true,
