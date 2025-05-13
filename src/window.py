@@ -58,7 +58,7 @@ class DocmorphWindow(Adw.ApplicationWindow):
 
     def button_convert(self, action, _):
         try:
-            subprocess.run(["pandoc", "-o", "documento.pdf", self.selected_file])
+            subprocess.run(["pandoc", "-o", "documento.pdf", self.selected_file ])
             print("Conversão concluída com sucesso.")
         except Exception as e:
             print(f"Erro durante a conversão: {e}")
