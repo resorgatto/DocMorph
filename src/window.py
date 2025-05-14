@@ -18,7 +18,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from gi.repository import Adw
-from gi.repository import Gtk, Gio
+from gi.repository import Gtk, Gio, GLib
 import subprocess
 
 @Gtk.Template(resource_path='/io/github/resorgatto/docmorph/window.ui')
@@ -33,9 +33,11 @@ class DocmorphWindow(Adw.ApplicationWindow):
         open_action = Gio.SimpleAction(name='open_file')
         open_action.connect('activate', self.open_file)
         self.add_action(open_action)
-        select_action = Gio.SimpleAction(name='button_convert')
-        select_action.connect('activate', self.button_convert)
-        self.add_action(select_action)
+
+        convert_action = Gio.SimpleAction.new_stateful(
+            "convert", None, GLib.Variant.new_string(""))
+        convert_action.connect('activate', self.button_convert)
+        self.add_action(convert_action)
 
 
 
@@ -48,7 +50,8 @@ class DocmorphWindow(Adw.ApplicationWindow):
         self._native.connect('response', self.on_open_response)
         self._native.show()
 
-    def on_open_response(self, dialog, response):
+
+    def on_open_response(self, dialog, response, _):
         if response == Gtk.ResponseType.ACCEPT:
             self.open_file(dialog.get_file())
             self.selected_file = dialog.get_file()
@@ -56,9 +59,14 @@ class DocmorphWindow(Adw.ApplicationWindow):
         self._native = None
 
 
-    def button_convert(self, action, _):
+
+    def button_convert(self, action, state):
         try:
-            subprocess.run(["pandoc", "-o", "documento.pdf", self.selected_file ])
+            print(state)
+            subprocess.run(["pandoc", "-o", "documento.pdf", state])
             print("Conversão concluída com sucesso.")
         except Exception as e:
             print(f"Erro durante a conversão: {e}")
+
+
+

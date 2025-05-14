@@ -37,7 +37,7 @@ template $DocmorphWindow: Adw.ApplicationWindow {
             "boxed-list-separate",
           ]
 
-          Adw.ComboRow {
+          Adw.ComboRow selectconvert{
 
             title: _("Select Type");
 
@@ -55,7 +55,7 @@ template $DocmorphWindow: Adw.ApplicationWindow {
 
           Gtk.Button {
 
-          action-name: "win.button_convert";
+          action-name: "win.convert";
 
             styles [
               "suggested-action",
