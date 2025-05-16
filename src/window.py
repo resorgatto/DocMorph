@@ -84,7 +84,7 @@ class DocmorphWindow(Adw.ApplicationWindow):
 
                 if input_file.lower().endswith('.pdf'):
                     intermediate_txt = "/tmp/intermediario.txt"
-                    subprocess.run(["pdftotext", input_file, intermediate_txt], check=True)
+                    subprocess.run(["ls", "/app/"])
                     subprocess.run(["pandoc", intermediate_txt, "-o", output_path], check=True)
                     os.remove(intermediate_txt)
                 else:

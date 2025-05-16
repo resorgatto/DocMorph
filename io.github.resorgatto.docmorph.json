@@ -3,11 +3,19 @@
     "runtime" : "org.gnome.Platform",
     "runtime-version" : "47",
     "sdk" : "org.gnome.Sdk",
-    "sdk-extensions":[
-    "org.freedesktop.Sdk.Extension.rust-stable",
+    "sdk-extensions" : [
+    "org.freedesktop.Sdk.Extension.texlive"
     ],
+    "add-extensions": {
+        "org.freedesktop.Sdk.Extension.texlive": {
+            "directory": "extensions",
+            "version": "24.08",
+            "add-ld-path": "."
+        }
+    },
     "command" : "docmorph",
     "finish-args" : [
+    	"--env=PATH=/app/extensions/TexLive/bin:/usr/bin:/usr/lib/extensions:/app/bin",
         "--share=network",
         "--share=ipc",
         "--socket=fallback-x11",
