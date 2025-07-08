@@ -1,28 +1,22 @@
 {
-    "id" : "io.github.resorgatto.docmorph",
-    "runtime" : "org.gnome.Platform",
-    "runtime-version" : "47",
-    "sdk" : "org.gnome.Sdk",
-    "sdk-extensions" : [
-    "org.freedesktop.Sdk.Extension.texlive"
+    "id": "io.github.resorgatto.docmorph",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "47",
+    "sdk": "org.gnome.Sdk",
+    "sdk-extensions": [
+        "org.freedesktop.Sdk.Extension.texlive"
     ],
-    "add-extensions": {
-        "org.freedesktop.Sdk.Extension.texlive": {
-            "directory": "extensions",
-            "version": "24.08",
-            "add-ld-path": "."
-        }
-    },
-    "command" : "docmorph",
-    "finish-args" : [
-    	"--env=PATH=/app/extensions/TexLive/bin:/usr/bin:/usr/lib/extensions:/app/bin",
+    "command": "docmorph",
+    "finish-args": [
+        "--env=PATH=/app/bin:/usr/bin:/usr/lib/sdk/texlive/bin/x86_64-linux:/usr/lib/sdk/texlive/bin/aarch64-linux",
         "--share=network",
         "--share=ipc",
         "--socket=fallback-x11",
         "--device=dri",
-        "--socket=wayland"
+        "--socket=wayland",
+        "--filesystem=home"
     ],
-    "cleanup" : [
+    "cleanup": [
         "/include",
         "/lib/pkgconfig",
         "/man",
@@ -33,56 +27,62 @@
         "*.la",
         "*.a"
     ],
-    "modules" : [
-
-            {
-            "name": "pandoc",
-            "buildsystem": "simple",
-            "build-commands": [
-                "install -Dm755 bin/pandoc ${FLATPAK_DEST}/bin/pandoc"
+    "modules": [
+        {
+            "name": "poppler",
+            "buildsystem": "cmake",
+            "builddir": true,
+            "config-opts": [
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-DCMAKE_INSTALL_PREFIX=/app",
+                "-DENABLE_UNSTABLE_API_ABI_HEADERS=ON",
+                "-DENABLE_UTILS=ON",
+                "-DBUILD_GTK_TESTS=OFF",
+                "-DENABLE_LIBCURL=OFF",
+                "-DENABLE_QT5=OFF",
+                "-DENABLE_QT6=OFF",
+                "-DENABLE_GOBJECT_INTROSPECTION=OFF",
+                "-DWITH_GPGME=OFF",
+                "-DENABLE_CMS=none",
+                "-DENABLE_BOOST=OFF"
             ],
             "sources": [
                 {
                     "type": "archive",
-                    "only-arches": [
-                        "x86_64"
-                    ],
-                    "url": "https://github.com/jgm/pandoc/releases/download/3.6.4/pandoc-3.6.4-linux-amd64.tar.gz",
-                    "sha256": "5def6e1ff535e397becce292ee97767a947306150b9fb1488003b67ac3417c5e",
-                    "x-checker-data": {
-                        "type": "json",
-                        "url": "https://api.github.com/repos/jgm/pandoc/releases/latest",
-                        "version-query": ".tag_name",
-                        "url-query": ".assets[] | select(.name==\"pandoc-\" + $version + \"-linux-amd64.tar.gz\") | .browser_download_url"
-                    }
-                },
-                {
-                    "type": "archive",
-                    "only-arches": [
-                        "aarch64"
-                    ],
-                    "url": "https://github.com/jgm/pandoc/releases/download/3.6.4/pandoc-3.6.4-linux-arm64.tar.gz",
-                    "sha256": "ad5cf63fe0420388d9ec513f02d03e061477b786d11a328164dce8ad7387b8bd",
-                    "x-checker-data": {
-                        "type": "json",
-                        "url": "https://api.github.com/repos/jgm/pandoc/releases/latest",
-                        "version-query": ".tag_name",
-                        "url-query": ".assets[] | select(.name==\"pandoc-\" + $version + \"-linux-arm64.tar.gz\") | .browser_download_url"
-                    }
+                    "url": "https://poppler.freedesktop.org/poppler-24.07.0.tar.xz",
+                    "sha256": "19eb4f49198e4ae3fd9e5a6cf24d0fc7e674e8802046a7de14baab1e40cc2f1d"
                 }
             ]
         },
-
-
-
         {
-            "name" : "docmorph",
-            "builddir" : true,
-            "buildsystem" : "meson",
-            "sources" : [
+            "name": "pandoc",
+            "buildsystem": "simple",
+            "build-commands": [
+                "install -Dm755 bin/pandoc /app/bin/pandoc"
+            ],
+            "sources": [
                 {
-                    "type" : "git",
-                    "url" : "file:///var/home/suby/Projects"
+                    "type": "archive",
+                    "only-arches": ["x86_64"],
+                    "url": "https://github.com/jgm/pandoc/releases/download/3.6.4/pandoc-3.6.4-linux-amd64.tar.gz",
+                    "sha256": "5def6e1ff535e397becce292ee97767a947306150b9fb1488003b67ac3417c5e"
+                },
+                {
+                    "type": "archive",
+                    "only-arches": ["aarch64"],
+                    "url": "https://github.com/jgm/pandoc/releases/download/3.6.4/pandoc-3.6.4-linux-arm64.tar.gz",
+                    "sha256": "ad5cf63fe0420388d9ec513f02d03e061477b786d11a328164dce8ad7387b8bd"
+                }
+            ]
+        },
+        {
+            "name": "docmorph",
+            "builddir": true,
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "dir",
+                    "path": "."
                 }
             ]
         }
