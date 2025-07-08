@@ -111,7 +111,7 @@ class DocmorphWindow(Adw.ApplicationWindow):
             self.show_error_dialog("Dependência Faltando", error_message)
 
         except subprocess.CalledProcessError as e:
-            error_details = e.stderr.decode('utf-8', errors='ignore') or e.stdout.decode('utf-8', errors='ignore') or "Nenhuma saída de erro detalhada."
+            error_details = e.stderr.encode('utf-8', errors='ignore') or e.stdout.decode('utf-8', errors='ignore') or "Nenhuma saída de erro detalhada."
             error_message = f"Ocorreu um erro durante a conversão.\n\nDetalhes do erro:\n{error_details}"
             print(error_message)
             self.show_error_dialog("Erro na Conversão", error_message)
